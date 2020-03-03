@@ -1,0 +1,110 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Meu Cartão
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+  <form [formGroup]="cadastroForm">
+
+    <div>
+      <ion-avatar>
+        <img *ngIf="img" [src]="img">
+      </ion-avatar>
+      <div class="botao">
+        <button mat-raised-button block (click)="presentActionSheet()">Carregar Foto</button>
+      </div>
+    </div>
+
+    <ion-card class="margem">
+      <mat-form-field class="tamanho">
+        <mat-label class="labelstyle">Nome</mat-label>
+        <input class="labelstyle" formControlName="nome" matInput required>
+        <mat-error *ngIf="cadastroForm.invalid">Campo Obrigatório!</mat-error>
+      </mat-form-field>
+
+
+
+      <div>
+        <mat-form-field class="tamanho">
+          <mat-label class="labelstyle">Sobrenome</mat-label>
+          <input class="labelstyle" formControlName="sobrenome" matInput required>
+          <mat-error *ngIf="cadastroForm.invalid">Campo Obrigatório!</mat-error>
+        </mat-form-field>
+      </div>
+
+
+
+      <div>
+        <mat-form-field class="tamanho">
+          <mat-label class="labelstyle">Endereço Comercial</mat-label>
+          <input class="labelstyle" formControlName="endereco" matInput required>
+          <mat-error *ngIf="cadastroForm.invalid">Campo Obrigatório!</mat-error>
+        </mat-form-field>
+      </div>
+
+
+
+      <div>
+        <mat-form-field class="div-end">
+          <mat-label class="labelstyle">Numero</mat-label>
+          <input class="labelstyle" formControlName="numero" matInput type="number" required>
+          <mat-error *ngIf="cadastroForm.invalid">Campo Obrigatório!</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label class="labelstyle">Complemento</mat-label>
+          <input class="labelstyle" matInput>
+        </mat-form-field>
+      </div>
+
+
+
+      <div>
+        <mat-form-field class="div-end">
+          <mat-label class="labelstyle">CEP</mat-label>
+          <input class="labelstyle" formControlName="cep" matInput mask="00000-000" required>
+          <mat-error *ngIf="cadastroForm.invalid">Campo Obrigatório!</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-end">
+          <mat-label class="labelstyle">Cidade</mat-label>
+          <input class="labelstyle" formControlName="cidade" matInput required>
+          <mat-error *ngIf="cadastroForm.invalid">Campo Obrigatório!</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-end">
+          <mat-label class="labelstyle">UF</mat-label>
+          <mat-select formControlName="uf">
+            <mat-option *ngFor="let state of states" [value]="state.sigla">
+              {{state.sigla}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="cadastroForm.invalid">Campo Obrigatório!</mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="div-tel">
+          <mat-label class="labelstyle">Tel.Comercial</mat-label>
+          <input class="labelstyle" formControlName="telcom" matInput mask="(00)0000-0000" required>
+          <mat-error *ngIf="cadastroForm.invalid">Campo Obrigatório!</mat-error>
+        </mat-form-field>
+        <mat-form-field class="div-tel">
+          <mat-label class="labelstyle">Tel.Celular</mat-label>
+          <input class="labelstyle" matInput mask="(00)00000-0000">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="tamanho">
+          <mat-label class="labelstyle">Email</mat-label>
+          <input class="labelstyle" matInput formControlName="email" type="email" required>
+          <mat-error *ngIf="cadastroForm.invalid">Campo Obrigatório!</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="botao">
+        <button mat-raised-button [disabled]="cadastroForm.invalid" (click)="presentAlert()">Gerar Cartão</button>
+      </div>
+    </ion-card>
+  </form>
+</ion-content>
