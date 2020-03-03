@@ -62,42 +62,45 @@ export class HomePage {
       sobrenome: [null, [Validators.required]]
     });
   }
-  /* Função para tirar a foto, salvar e mostrar ela no avatar */
-  tirarFoto() {
-    this.img = ""
+  
+
+  cameraOptions(srcType: number): CameraOptions {
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
+      sourceType: srcType,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation:true
     };
+
+    return options
+  }
+
+
+  /* Função para tirar a foto, salvar e mostrar ela no avatar */
+  tirarFoto() {
+    let options: CameraOptions = this.cameraOptions(this.camera.PictureSourceType.CAMERA);
+
     this.camera.getPicture(options)
-    .then((imageData) => {
-      let base64image = 'data:image/jpeg;base64,' + imageData;
-      this.img = base64image;
-    }, (error) => {
-      console.error(error);
-    });
+      .then((imageData) => {
+        let base64image = 'data:image/jpeg;base64,' + imageData;
+        this.img = base64image;
+      }, (error) => {
+        console.error(error);
+      });
   }
   /* Função para selecionar foto da galeria */
 
-  /*  selecionarGaleria() {
-    this.img = ""
-     const options: CameraOptions = {
-       quality: 100,
-       destinationType: this.camera.DestinationType.DATA_URL,
-       encodingType: this.camera.EncodingType.JPEG,
-       sourceType: this.camera.PictureSourceType.SAVEDPHOTOALBUM,
-     };
-     this.camera.getPicture(options)
-     .then((imageData) => {
-       let base64image = 'data:image/jpeg;base64,' + imageData;
-       this.img = base64image;
-     }, (err) => {
-     });
-   } */
+  selecionarGaleria() {
 
-
+    this.camera.getPicture(this.cameraOptions(this.camera.PictureSourceType.SAVEDPHOTOALBUM))
+      .then((imageData) => {
+        let base64image = 'data:image/jpeg;base64,' + imageData;
+        this.img = base64image;
+      }, (err) => {
+      });
+  }
   /* Função de alerta para gerar o cartão */
   async presentAlert() {
     const alert = await this.alertController.create({
@@ -124,7 +127,7 @@ export class HomePage {
         text: 'Selecionar da Galeria',
         icon: 'images-outline',
         handler: () => {
-          /* this.selecionarGaleria(); */
+          this.selecionarGaleria();
         }
       }, {
         text: 'Cancelar',
